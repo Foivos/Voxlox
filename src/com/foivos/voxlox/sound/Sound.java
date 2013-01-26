@@ -1,7 +1,6 @@
 package com.foivos.voxlox.sound;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
 
@@ -10,16 +9,13 @@ public class Sound {
 	private ByteArrayOutputStream stream;
 	public Sound(AudioFormat audioFormat) {
 		this.audioFormat = audioFormat;
+		stream = new ByteArrayOutputStream();
 	}
 	public Sound(){
 		this(DefaultAudioFormat.getFormat());
 	}
-	public void append(byte[] bytes) {
-		try {
-			stream.write(bytes);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void append(byte[] bytes, int bytesRead) {
+		stream.write(bytes, 0, bytesRead);
 	}
 	public AudioFormat getFormat() {
 		return audioFormat;
