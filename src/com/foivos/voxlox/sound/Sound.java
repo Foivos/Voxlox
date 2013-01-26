@@ -1,7 +1,8 @@
 package com.foivos.voxlox.sound;
 
+import javax.sound.sampled.AudioFormat;
+
 public class Sound {
-	public static void main(String[] args) {
-		System.out.println("hello");
-	}
+	private AudioFormat audioFormat;
+	
 }
