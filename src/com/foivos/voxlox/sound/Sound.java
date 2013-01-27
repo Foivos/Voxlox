@@ -23,4 +23,18 @@ public class Sound {
 	public byte[] getByteArray() {
 		return stream.toByteArray();
 	}
+	public int[] getIntArray() {
+		byte[] bytes = getByteArray();
+		int sampleSizeInBytes= audioFormat.getSampleSizeInBits()/8;
+		int[] result = new int[bytes.length/sampleSizeInBytes];
+		for(int i=0;i<bytes.length;i++) {
+			result[i] = 0;
+			for(int j=0;j<sampleSizeInBytes;j++){
+				result[i] += bytes[i * sampleSizeInBytes + 
+				                   (audioFormat.isBigEndian() ? j : (sampleSizeInBytes - 1 - j))];
+			}
+		}
+		return result;
+	}
+	
 }
