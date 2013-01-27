@@ -4,11 +4,10 @@ import javax.sound.sampled.AudioFormat;
 
 public class SoundUtils {
 
-	private final static double volumeSamplingTime=0.01;
+	private final static double volumeSamplingTime=0.1;
 	
-	public double[] getVolume(Sound sound) {
+	public static double[] getVolume(Sound sound) {
 		AudioFormat audioFormat = sound.getFormat();
-		//int sampleSizeInBytes= audioFormat.getSampleSizeInBits()/8;
 		int volumeSamplingLength = (int) (audioFormat.getSampleRate() * volumeSamplingTime);
 		int[] ints = sound.getIntArray();
 		double[] volume = new double[ints.length];
@@ -18,12 +17,14 @@ public class SoundUtils {
 		}
 		for(int i=0;i<volume.length;i++) {
 			volume[i] = avg;
-			avg += (i+volumeSamplingLength/2 < volume.length) 
-					? (double)ints[i+volumeSamplingLength/2] / volumeSamplingLength 	
-					: 0;
-			avg += (i-volumeSamplingLength/2 >= 0) 
-					? (double)ints[i-volumeSamplingLength/2] / volumeSamplingLength 	
-					: 0;		
+			if(i+volumeSamplingLength/2 < volume.length) {
+				double temp = (double)ints[i+volumeSamplingLength/2] / volumeSamplingLength;
+				avg += temp * temp;
+			}
+			if(i-volumeSamplingLength/2 >= 0) {
+				double temp = (double)ints[i-volumeSamplingLength/2] / volumeSamplingLength;	
+				avg -= temp * temp;
+			}
 		}
 		return volume;
 	}

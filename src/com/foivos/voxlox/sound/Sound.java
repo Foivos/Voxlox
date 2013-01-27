@@ -27,7 +27,7 @@ public class Sound {
 		byte[] bytes = getByteArray();
 		int sampleSizeInBytes= audioFormat.getSampleSizeInBits()/8;
 		int[] result = new int[bytes.length/sampleSizeInBytes];
-		for(int i=0;i<bytes.length;i++) {
+		for(int i=0;i<result.length;i++) {
 			result[i] = 0;
 			for(int j=0;j<sampleSizeInBytes;j++){
 				result[i] += bytes[i * sampleSizeInBytes + 
